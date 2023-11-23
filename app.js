@@ -15,30 +15,14 @@ mongoose.connect(process.env.DATABASE).then(() => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const allowedOrigins = [
-  "https://cool-rugelach-ded7b8.netlify.app",
-  "https://master--cool-rugelach-ded7b8.netlify.app/",
-];
-const corsOptions = {
-  origin: allowedOrigins,
-  optionsSuccessStatus: 200,
+const corsOpts = {
+  origin: "*",
+  credentials: true,
+  methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+  exposedHeaders: ["Content-Type"],
 };
-
-app.use(cors(corsOptions));
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
-  );
-  next();
-});
+app.use(cors(corsOpts));
 
 //rouutes
 app.use(projectRoutes);
