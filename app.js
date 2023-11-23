@@ -15,7 +15,18 @@ mongoose.connect(process.env.DATABASE).then(() => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors());
+
+const allowedOrigins = [
+  "https://cool-rugelach-ded7b8.netlify.app",
+  "https://master--cool-rugelach-ded7b8.netlify.app/",
+];
+const corsOptions = {
+  origin: allowedOrigins,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
