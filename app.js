@@ -15,14 +15,19 @@ mongoose.connect(process.env.DATABASE).then(() => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const corsOpts = {
-  origin: "*",
-  credentials: true,
-  methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type"],
-  exposedHeaders: ["Content-Type"],
-};
-app.use(cors(corsOpts));
+var whitelist = [
+  "https://cool-rugelach-ded7b8.netlify.app",
+  "https://master--cool-rugelach-ded7b8.netlify.app/",
+];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+}.use(cors(corsOpts));
 
 //rouutes
 app.use(projectRoutes);
