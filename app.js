@@ -27,7 +27,7 @@ var corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-}.use(cors(corsOpts));
+}.use(cors(corsOptions));
 
 //rouutes
 app.use(projectRoutes);
